@@ -1,30 +1,27 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        /* Bloco try-with-resources
-         É um bloco try que declara um ou mais recursos, e garante que esses recursos serão fechados
-         ao final do bloco
+        /*
+        FileWrite = Stream de escrite de caracteres de arquivos
+        * Cria/recria o arquivo: new FileWrite(caminho);
+        * Acrescenta ao arquivo existente: new Filewrite(path, true);
 
-         ATENÇÃO com try-with-resources não prescisa utilizar finally
+        BufferedWrite = Mais rapido porque tem aquele esquema que trata mais rápido
          */
 
-        String caminho = "C:\\Users\\Carlos\\IdeaProjects\\in.txt";
+        String[] linhas = new String[] { "Bom dia", "Boa tarde", "Boa noite"}; // criando lista
+        String caminho = "C:\\Users\\Carlos\\IdeaProjects\\out.txt"; // criando arquivo e gravando dados
 
-        //bloco try-with-resources mais enxuto
-        try (BufferedReader br = new BufferedReader(new FileReader(caminho))){ // Para abrir aquivo e ler ele
-
-            String linha = br.readLine(); // ler uma linha do arquivo se estiver no final retorna null
-            // então para isso iremos testar em forma de while
-
-            while (linha != null) {
-                System.out.println(linha);
-                linha = br.readLine();
-            }
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminho/*, true*/))) { // para apenas gravar dnv apenas adicionar o true
+             for (String linha : linhas) {
+                 bw.write(linha);
+                 bw.newLine();
+             }
         } catch (IOException e) {
-            System.out.println("Erro : " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }
