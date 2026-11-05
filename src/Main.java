@@ -1,27 +1,34 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.File;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        /*
-        FileWrite = Stream de escrite de caracteres de arquivos
-        * Cria/recria o arquivo: new FileWrite(caminho);
-        * Acrescenta ao arquivo existente: new Filewrite(path, true);
+        // Manipulação de pastas com File
+        Scanner sc = new Scanner(System.in);
 
-        BufferedWrite = Mais rapido porque tem aquele esquema que trata mais rápido
-         */
+        System.out.print("Digite uma pasta: ");
+        String pasta = sc.nextLine();
 
-        String[] linhas = new String[] { "Bom dia", "Boa tarde", "Boa noite"}; // criando lista
-        String caminho = "C:\\Users\\Carlos\\IdeaProjects\\out.txt"; // criando arquivo e gravando dados
+        File file = new File(pasta);
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminho/*, true*/))) { // para apenas gravar dnv apenas adicionar o true
-             for (String linha : linhas) {
-                 bw.write(linha);
-                 bw.newLine();
-             }
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+        File[] pastaFiles = file.listFiles(File::isDirectory); // gerar listagem de pastas
+        System.out.println("Pastas:");
+        for (File f : pastaFiles) {
+            System.out.println(f.getName());
         }
+
+        // para conseguir as listas de arquivos:
+
+        File[] pastaFiles2 = file.listFiles(File::isFile);
+        System.out.println("Pastas:");
+        for (File f : pastaFiles2) {
+            System.out.println(f.getName());
+        }
+
+        // criando um sub-pasta a partir da pasta
+
+        boolean x = new File(pasta + "\\subdir").mkdir();
+        System.out.println("Diretório criado com sucesso: " + x);
+        sc.close();
     }
 }
